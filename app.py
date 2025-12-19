@@ -50,12 +50,13 @@ st.markdown("""
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <div style='text-align: center; padding: 15px;'>
-        <h1 style='color: black;'><i class="fas fa-balance-scale" style="color:
+        <h1 style='color: white;'><i class="fas fa-balance-scale" style="color: #0078D4;"></i> Aequitas: AI Resume Auditor</h1>
+        <p style='color: #CCCCCC; font-size: 18px;'>Developed by Devansh Thakur, Arpit Upadhyay & Arjun Kumar</p>
     </div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-    <h3 style='font-size: 22px; color: #333333;'>Upload the Job Description and your Resume files to check your compatibility with the job.</h3>
+    <h3 style='font-size: 20px; color: #FFFFFF; text-align: center;'>Upload the Job Description and your Resume to begin analysis.</h3>
 """, unsafe_allow_html=True)
 
 job_desc_file = st.file_uploader("Upload Job description (PDF or DOCX)", type = ['pdf', 'docx'])
@@ -86,13 +87,13 @@ if st.button("Calculate"):
 
         # Display the similarity score with custom styling
         st.markdown(f"""
-            <div style='background-color: #f9f9f9; padding: 15px; border-radius: 10px;'>
-                <h1 style='color: black;'><i class="fas fa-balance-scale" style="color:
-                <p style='font-size: 24px; color: #333;'>
-                 Your resume matches about <strong>{similarity_score}%</strong> of the job description.
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
+    <div style='background-color: #262730; padding: 20px; border-radius: 10px; border: 1px solid #4CAF50;'>
+        <h2 style='color: #4CAF50;'>📝 Aequitas Score</h2>
+        <p style='font-size: 24px; color: white;'>
+         Your resume matches <strong>{similarity_score}%</strong> of the job description.
+        </p>
+    </div>
+""", unsafe_allow_html=True)
 
         # Skills Comparison
         resume_skills = extract_skills(resume_text)
