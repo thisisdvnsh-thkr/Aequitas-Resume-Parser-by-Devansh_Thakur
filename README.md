@@ -1,8 +1,5 @@
-# Resume Parsing WebApp
+# Aequitas - AI-Powered Resume Screening & Fairness Auditor
  
-
-## Introduction
-This project creates a web application designed to evaluate the compatibility of a resume with a job descripti# Aequitas - AI-Powered Resume Screening & Fairness Auditor
 
 ## Introduction
 Aequitas is an AI-driven web application designed to evaluate the alignment between a candidate's resume and a specific job description. Developed as a minor project for the 7th-semester B.Tech curriculum in Artificial Intelligence & Machine Learning, the system utilizes Natural Language Processing (NLP) and vector space modeling to provide a quantifiable compatibility score and detailed skill-gap analysis.
@@ -32,11 +29,7 @@ You can access the live application here:
 4. **Streamlit WebApp:**
    - Provides an interactive, dark-themed interface for real-time analysis and result visualization.
 
-## Installation
-1. Clone the repository:
-```bash
-git clone [https://github.com/thisisdvnsh-thkr/Aequitas-Resume-Parser-by-Devansh_Thakur.git](https://github.com/thisisdvnsh-thkr/Aequitas-Resume-Parser-by-Devansh_Thakur.git)
-cd Aequitas-Resume-Parser-by-Devansh_Thakur
+
 
 For any questions or further assistance, please feel free to contact me.
 
