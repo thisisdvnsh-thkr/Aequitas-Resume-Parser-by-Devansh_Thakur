@@ -1,4 +1,19 @@
-docx2txt==0.8
-pdfminer.six==20240706
-scikit_learn==1.5.1
-streamlit==1.36.0
+# --- Core Web Framework ---
+streamlit==1.28.0           # Main UI framework for the Aequitas Auditor interface
+
+# --- Document Processing & Extraction ---
+pdfminer.six==20221105      # Advanced PDF text extraction (Replaces pdfminer.github.io)
+docx2txt==0.9               # Pure Python tool to extract text and images from docx files
+python-magic==0.4.27        # File type identification for secure document uploading
+
+# --- Machine Learning & Vectorization ---
+scikit-learn==1.3.2         # Provides CountVectorizer and Cosine Similarity logic
+numpy==1.26.2               # Fundamental package for scientific computing with Python
+scipy==1.11.4               # Library used by sklearn for high-performance linear algebra
+
+# --- NLP & Text Utilities ---
+regex==2023.10.3            # Alternative regular expression module for complex skill matching
+nltk==3.8.1                 # Natural Language Toolkit for potential future tokenization
+
+# --- Frontend Styling & Icons ---
+# Note: FontAwesome is handled via CDN in the app code, no pip package required
