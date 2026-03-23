@@ -1,39 +1,142 @@
-# Aequitas - AI-Powered Resume Screening & Fairness Auditor
- 
+# Aequitas — AI Resume Auditor
+### Python • NLP • Streamlit • Scikit-learn
 
-## Introduction
-Aequitas is an AI-driven web application designed to evaluate the alignment between a candidate's resume and a specific job description. Developed as a minor project for the 7th-semester B.Tech curriculum in Artificial Intelligence & Machine Learning, the system utilizes Natural Language Processing (NLP) and vector space modeling to provide a quantifiable compatibility score and detailed skill-gap analysis.
+![Python](https://img.shields.io/badge/Python-3.10-3776AB?style=flat&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Live-brightgreen?style=flat)
 
-You can check your job comatibility through this link:  
-**[PASTE_YOUR_STREAMLIT_URL_HERE]**
+An intelligent and fair AI system for 
+resume screening — analyses resumes against 
+job descriptions using NLP to provide 
+match scores and skill gap analysis.
 
-## Features
-- **Dual-Format Support:** Seamlessly handles both PDF and DOCX files for Job Descriptions and Resumes.
-- **Automated Skill Extraction:** Uses specialized NLP parsing to identify relevant technical and soft skills.
-- **Similarity Scoring:** Employs mathematical vectorization to compute a compatibility percentage.
-- **Skill-Gap Analytics:** Visually differentiates between matching competencies and missing requirements.
-- **Aequitas Auditor Interface:** A custom-styled UI designed for professional fairness auditing.
+---
 
-## Technical Details
-1. **Text Extraction:**
-   - PDF text extraction is performed using `pdfminer.six`.
-   - DOCX text extraction is performed using `docx2txt`.
+## 📌 Problem Statement
 
-2. **Skill Extraction:**
-   - Relevant skills are identified from the text using a predefined skill set and regular expression matching.
+Traditional resume screening relies on 
+keyword matching which introduces bias 
+based on phrasing, gender and background 
+rather than actual skills and competency.
 
-3. **Similarity Calculation:**
-   - Utilizes `CountVectorizer` to transform raw text into numerical feature vectors.
-   - Implements **Cosine Similarity** from `sklearn` to compute the compatibility score between the two documents.
+Aequitas solves this by using **Cosine 
+Similarity** and **NLP techniques** to 
+calculate match percentage purely based 
+on technical skills and content — 
+removing human and keyword bias.
 
-4. **Streamlit WebApp:**
-   - Provides an interactive, dark-themed interface for real-time analysis and result visualization.
+---
 
+## ✨ Key Features
 
+- 📄 **Multi-Format Support** — Accepts 
+  PDF and DOCX files for both resumes 
+  and job descriptions
+- 🔍 **Intelligent Parsing** — Extracts 
+  and cleans text using Regex and 
+  Tokenization
+- 📊 **Compatibility Score** — Calculates 
+  match percentage (0-100%) using 
+  vector similarity
+- ✅ **Matched Skills** — Shows skills 
+  present in both resume and JD
+- ❌ **Missing Skills** — Highlights 
+  critical skills absent from resume
+- ⚖️ **Bias Reduction** — Focuses purely 
+  on technical skills and content
 
-For any questions or further assistance, please feel free to contact me.
+---
 
-Devansh Thakur
-devil.devthakur9999@gmail.com
+## 🛠️ Tech Stack
 
+| Layer | Technology |
+|---|---|
+| Frontend | Streamlit |
+| Backend | Python 3.10 |
+| NLP & ML | Scikit-learn (Cosine Similarity, CountVectorizer) |
+| PDF Parsing | pdfminer.six |
+| DOCX Parsing | docx2txt |
+| Text Processing | Regex, Tokenization |
 
+---
+
+## 🔄 How It Works
+```
+Resume (PDF/DOCX) ──┐
+                    ├──► Text Extraction
+JD (PDF/DOCX) ─────┘         │
+                              ▼
+                    NLP Processing
+                    (Tokenization + Cleaning)
+                              │
+                              ▼
+                    Cosine Similarity
+                    (CountVectorizer)
+                              │
+                              ▼
+                    Match Score (0-100%)
+                    + Skill Gap Analysis
+```
+
+---
+
+## 📊 Output
+
+- **Match Score** — Percentage compatibility 
+  between resume and job description
+- **Matched Skills** — Common technical 
+  keywords found in both
+- **Missing Skills** — Skills in JD 
+  not found in resume
+- **Bias-free analysis** — No demographic 
+  or formatting bias
+
+---
+
+## 🚀 How to Run Locally
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/thisisdvnsh-thkr/aequitas-fair-hiring-nlp.git
+cd aequitas-fair-hiring-nlp
+```
+
+**2. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**3. Run the app**
+```bash
+streamlit run app.py
+```
+
+---
+
+## 📁 Project Structure
+```
+├── .devcontainer/     # Dev container config
+├── images/            # UI screenshots
+├── app.py             # Main Streamlit app
+├── requirements.txt   # Dependencies
+├── runtime.txt        # Python version
+└── README.md
+```
+
+---
+
+## 👥 Contributors
+
+**Devansh Thakur**
+[LinkedIn](https://linkedin.com/in/devansh-thakur) •
+[GitHub](https://github.com/thisisdvnsh-thkr)
+
+**Arpit Upadhyay**
+[GitHub](https://github.com/Arpit7088)
+
+---
+
+*Built with Python & Streamlit*
+```
+
+---
