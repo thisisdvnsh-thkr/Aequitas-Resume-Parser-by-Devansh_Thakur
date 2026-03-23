@@ -24,22 +24,26 @@ SKILL_DB = [
     "communication", "leadership", "problem solving", "agile", "scrum", "project management", "critical thinking"
 ]
 
-# --- 3. INJECT CUSTOM CSS ---
+# --- 3. INJECT CUSTOM CSS (THEME ADAPTIVE) ---
 st.markdown("""
     <style>
     /* Font Import */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    
-    html, body, [class*="css"]  {
+
+    html, body, [class*="css"] {
         font-family: 'Poppins', sans-serif;
     }
-    
-    /* Hide default decoration */
+
+    /* Hide default deploy button */
     .stDeployButton {display:none;}
-    
-    /* Dark Header Strip */
+
+    /* ===== THEME ADAPTIVE VARIABLES ===== */
+    /* These use Streamlit's built-in CSS variables that 
+       automatically switch between light and dark mode */
+
+    /* Header Strip - adapts to theme */
     .header-strip {
-        background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+        background: linear-gradient(90deg, #0078D4 0%, #005a9e 100%);
         padding: 25px;
         border-radius: 12px;
         color: white;
@@ -62,10 +66,10 @@ st.markdown("""
     .header-text p {
         margin: 5px 0 0 0;
         font-size: 1rem;
-        color: #94a3b8;
+        color: #e2e8f0;
     }
 
-    /* FASCINATING DEVELOPER NAME CARDS */
+    /* Developer Name Cards - theme adaptive */
     .dev-container {
         margin-top: 20px;
         margin-bottom: 20px;
@@ -73,41 +77,43 @@ st.markdown("""
     .dev-title {
         font-size: 0.85rem;
         font-weight: 700;
-        color: #64748b;
+        color: var(--text-color);
         text-transform: uppercase;
         letter-spacing: 1.2px;
         margin-bottom: 12px;
+        opacity: 0.6;
     }
     .dev-name-card {
-        background-color: #ffffff;
+        background-color: var(--background-color);
         padding: 12px 15px;
         margin-bottom: 8px;
         border-radius: 8px;
-        border-left: 5px solid #0078D4; /* Blue Accent */
+        border-left: 5px solid #0078D4;
         font-size: 1rem;
         font-weight: 600;
-        color: #334155;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        transition: all 0.3s ease; /* Smooth Animation */
+        color: var(--text-color);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
         cursor: default;
     }
-    /* Hover Effect - The Magic Part */
     .dev-name-card:hover {
         background-color: #0078D4;
         color: white;
-        transform: translateX(5px); /* Moves slightly right */
-        box-shadow: 0 4px 10px rgba(0,120,212,0.3);
+        transform: translateX(5px);
+        box-shadow: 0 4px 10px rgba(0,120,212,0.4);
     }
 
-    /* Score Card & Tags */
+    /* Score Card - theme adaptive */
     .score-card {
-        background: white;
+        background-color: var(--background-color);
         padding: 25px;
         border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         text-align: center;
-        border: 1px solid #e1e1e1;
+        border: 1px solid rgba(0,120,212,0.2);
     }
+
+    /* Skill Tags - theme adaptive */
     .skill-tag {
         display: inline-block;
         padding: 6px 12px;
@@ -115,48 +121,110 @@ st.markdown("""
         border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 600;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     }
-    .match-tag { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
-    .missing-tag { background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
+    .match-tag {
+        background-color: rgba(25, 135, 84, 0.15);
+        color: #198754;
+        border: 1px solid rgba(25, 135, 84, 0.3);
+    }
+    .missing-tag {
+        background-color: rgba(220, 53, 69, 0.15);
+        color: #dc3545;
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    /* Landing page info box - theme adaptive */
+    .info-box {
+        background-color: rgba(0, 120, 212, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 5px solid #0078D4;
+        color: var(--text-color);
+    }
+
+    /* Landing page text - theme adaptive */
+    .landing-heading {
+        color: var(--text-color);
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .landing-text {
+        color: var(--text-color);
+        font-size: 1.05rem;
+        line-height: 1.7;
+        opacity: 0.85;
+    }
+    .landing-list {
+        color: var(--text-color);
+        font-size: 1rem;
+        line-height: 1.9;
+        opacity: 0.9;
+    }
+
+    /* Streamlit built-in theme variables */
+    :root {
+        --text-color: #1e293b;
+        --background-color: #f8fafc;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --text-color: #e2e8f0;
+            --background-color: #1e293b;
+        }
+    }
+
+    [data-theme="dark"] {
+        --text-color: #e2e8f0;
+        --background-color: #1e293b;
+    }
+
+    [data-theme="light"] {
+        --text-color: #1e293b;
+        --background-color: #f8fafc;
+    }
     </style>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 """, unsafe_allow_html=True)
 
 # --- 4. HELPER FUNCTIONS ---
 def get_text_from_pdf(file):
     return extract_text(file)
+
 def get_text_from_docx(file):
     return docx2txt.process(file)
+
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'\n', ' ', text)
     text = re.sub(r'[^\w\s]', ' ', text)
     return text
+
 def extract_skills(text):
     found_skills = set()
     cleaned_text = clean_text(text)
     words = set(cleaned_text.split())
     for skill in SKILL_DB:
-        if skill in words: found_skills.add(skill)
-        elif " " in skill and skill in cleaned_text: found_skills.add(skill)
+        if skill in words:
+            found_skills.add(skill)
+        elif " " in skill and skill in cleaned_text:
+            found_skills.add(skill)
     return found_skills
 
-# --- 5. SIDEBAR (Correct Logo & Hover Name Cards) ---
+# --- 5. SIDEBAR ---
 with st.sidebar:
-    # 1. NEW LOGO (Balance Scale)
-    st.image("https://cdn-icons-png.flaticon.com/512/924/924915.png", width=60) # Blue Balance Scale Icon
+    st.image("https://cdn-icons-png.flaticon.com/512/924/924915.png", width=60)
     st.title("Control Panel")
-    
-    # Upload Section
+
     st.markdown("### 1. Upload Documents")
     uploaded_jd = st.file_uploader("Job Description (JD)", type=["pdf", "docx"])
     uploaded_resume = st.file_uploader("Candidate Resume", type=["pdf", "docx"])
-    
+
     st.markdown("---")
 
-    # 2. FASCINATING DEVELOPERS SECTION
     st.markdown("""
         <div class="dev-container">
             <div class="dev-title">Created By</div>
@@ -172,7 +240,7 @@ with st.sidebar:
 # --- 6. MAIN PAGE HEADER ---
 st.markdown("""
     <div class="header-strip">
-        <i class="fas fa-balance-scale header-logo" style="color: #0078D4;"></i>
+        <i class="fas fa-balance-scale header-logo" style="color: white;"></i>
         <div class="header-text">
             <h1>Aequitas: AI Resume Auditor</h1>
             <p>Intelligent & Fair Resume Screening System</p>
@@ -184,10 +252,15 @@ st.markdown("""
 if uploaded_jd and uploaded_resume:
     with st.spinner('⚡ AI is auditing the resume...'):
         try:
-            if uploaded_jd.type == "application/pdf": jd_text = get_text_from_pdf(uploaded_jd)
-            else: jd_text = get_text_from_docx(uploaded_jd)
-            if uploaded_resume.type == "application/pdf": resume_text = get_text_from_pdf(uploaded_resume)
-            else: resume_text = get_text_from_docx(uploaded_resume)
+            if uploaded_jd.type == "application/pdf":
+                jd_text = get_text_from_pdf(uploaded_jd)
+            else:
+                jd_text = get_text_from_docx(uploaded_jd)
+
+            if uploaded_resume.type == "application/pdf":
+                resume_text = get_text_from_pdf(uploaded_resume)
+            else:
+                resume_text = get_text_from_docx(uploaded_resume)
 
             jd_skills = extract_skills(jd_text)
             resume_skills = extract_skills(resume_text)
@@ -202,6 +275,7 @@ if uploaded_jd and uploaded_resume:
 
             # --- RESULT SECTION ---
             col1, col2 = st.columns([1, 1.5])
+
             with col1:
                 st.markdown('<div class="score-card">', unsafe_allow_html=True)
                 st.write("### 🎯 Match Score")
@@ -220,14 +294,18 @@ if uploaded_jd and uploaded_resume:
             with col2:
                 st.write("### 🧬 Skill Audit")
                 st.write("**✅ Matched Skills:**")
-                if matched_skills: st.markdown("".join([f'<span class="skill-tag match-tag">{s.upper()}</span>' for s in matched_skills]), unsafe_allow_html=True)
-                else: st.warning("No skills matched directly.")
-                
+                if matched_skills:
+                    st.markdown("".join([f'<span class="skill-tag match-tag">{s.upper()}</span>' for s in matched_skills]), unsafe_allow_html=True)
+                else:
+                    st.warning("No skills matched directly.")
+
                 st.write("---")
-                
+
                 st.write("**❌ Missing Skills:**")
-                if missing_skills: st.markdown("".join([f'<span class="skill-tag missing-tag">{s.upper()}</span>' for s in missing_skills]), unsafe_allow_html=True)
-                else: st.success("No key skills missing!")
+                if missing_skills:
+                    st.markdown("".join([f'<span class="skill-tag missing-tag">{s.upper()}</span>' for s in missing_skills]), unsafe_allow_html=True)
+                else:
+                    st.success("No key skills missing!")
 
             with st.expander("📄 View Resume Snippet"):
                 st.info(resume_text[:600] + "...")
@@ -236,28 +314,32 @@ if uploaded_jd and uploaded_resume:
             st.error(f"❌ Error: {e}")
 
 else:
-    # --- LANDING PAGE (UPDATED WITH YOUR S3 IMAGE) ---
+    # --- LANDING PAGE ---
     col1, col2 = st.columns([1.2, 1])
-    
+
     with col1:
-        st.image("https://website-artificio.s3.us-west-2.amazonaws.com/Resume_Parsing_a180290fcd.jpg", use_column_width=True)
-    
+        st.image(
+            "https://website-artificio.s3.us-west-2.amazonaws.com/Resume_Parsing_a180290fcd.jpg",
+            use_column_width=True
+        )
+
     with col2:
         st.markdown("""
         <div style="padding-top: 20px; padding-left: 10px;">
-            <h2 style="color: #2c3e50;">Automated Resume Parsing</h2>
-            <p style="font-size: 1.1rem; color: #555; line-height: 1.6;">
-                <b>Aequitas AI</b> is a powerful tool designed to help recruiters and candidates by providing an unbiased, automated analysis of resumes against job descriptions.
+            <p class="landing-heading">Automated Resume Parsing</p>
+            <p class="landing-text">
+                <b>Aequitas AI</b> is a powerful tool designed to help recruiters 
+                and candidates by providing an unbiased, automated analysis of 
+                resumes against job descriptions.
             </p>
-            <ul style="font-size: 1rem; line-height: 1.8; color: #444;">
+            <ul class="landing-list">
                 <li>🚀 <b>Instant Match Calculation</b></li>
                 <li>⚖️ <b>Fair & Unbiased Screening</b></li>
                 <li>🔍 <b>Detailed Skill Gap Analysis</b></li>
             </ul>
             <br>
-            <div style="background-color: #f1f5f9; padding: 15px; border-radius: 8px; border-left: 5px solid #0078D4;">
+            <div class="info-box">
                 <small>👈 <b>Start Audit:</b> Upload JD & Resume from the Sidebar.</small>
             </div>
         </div>
         """, unsafe_allow_html=True)
-
