@@ -1,5 +1,4 @@
-docx2txt
-pdfminer.six
-scikit-learn
-streamlit
-pillow>=10.0.0,<11.0.0
+streamlit>=1.28.0
+scikit-learn>=1.3.0
+pdfminer.six>=20221105
+docx2txt>=0.8
