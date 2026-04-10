@@ -133,4 +133,4 @@ Powered by TF-IDF Vectorization & Cosine Similarity
 
 ⭐ Star this repo if you found it useful!
 
-</div> ```
+</div>
