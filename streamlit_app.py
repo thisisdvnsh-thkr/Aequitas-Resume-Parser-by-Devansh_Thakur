@@ -51,9 +51,9 @@ def load_css():
         font-family: 'Inter', sans-serif;
     }}
     
-    /* Hide Sidebar Completely */
+    /* Hide Sidebar */
     [data-testid="stSidebar"] {{
-        display: none;
+        display: none !important;
     }}
     
     .stApp {{
@@ -62,7 +62,6 @@ def load_css():
         color: {text_color};
     }}
     
-    /* Main Container */
     .main .block-container {{
         padding: 2rem 3rem;
         max-width: 1400px;
@@ -227,39 +226,35 @@ def load_css():
         padding: 3rem 2rem;
         margin-top: 5rem;
         border-top: 1px solid {border_color};
-        color: {secondary_text};
     }}
     
     .footer-credits {{
         font-size: 1rem;
         margin-bottom: 1.5rem;
         color: {text_color};
+        line-height: 1.8;
     }}
     
-    .footer-links {{
-        margin: 1rem 0;
-    }}
-    
-    .footer-links a {{
+    .footer-link {{
         color: {accent_color};
         text-decoration: none;
-        margin: 0 1rem;
+        margin: 0 0.8rem;
         font-weight: 500;
         transition: all 0.3s ease;
     }}
     
-    .footer-links a:hover {{
+    .footer-link:hover {{
         text-decoration: underline;
-        transform: translateY(-2px);
     }}
     
     .footer-meta {{
         font-size: 0.85rem;
-        opacity: 0.7;
+        color: {secondary_text};
         margin-top: 1rem;
+        line-height: 1.6;
     }}
     
-    /* Documentation Section */
+    /* Documentation Cards */
     .doc-card {{
         background: {card_bg};
         backdrop-filter: blur(12px);
@@ -268,6 +263,7 @@ def load_css():
         border: 1px solid {border_color};
         margin: 1rem 0;
         transition: all 0.3s ease;
+        box-shadow: {shadow};
     }}
     
     .doc-card:hover {{
@@ -279,13 +275,13 @@ def load_css():
         font-size: 1.1rem;
         font-weight: 600;
         color: {text_color};
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
     }}
     
     .doc-desc {{
         font-size: 0.9rem;
         color: {secondary_text};
-        line-height: 1.6;
+        line-height: 1.7;
     }}
     
     /* Buttons */
@@ -312,8 +308,8 @@ def load_css():
         border-radius: 10px;
     }}
     
-    /* File Uploader */
-    .stFileUploader {{
+    /* FILE UPLOADER - HIDE 200MB TEXT */
+    [data-testid="stFileUploader"] {{
         background: {card_bg};
         backdrop-filter: blur(12px);
         border-radius: 16px;
@@ -321,17 +317,38 @@ def load_css():
         border: 1px solid {border_color};
     }}
     
-    /* Hide Streamlit Elements */
-    #MainMenu {{visibility: hidden;}}
-    footer {{visibility: hidden;}}
-    header {{visibility: hidden;}}
+    [data-testid="stFileUploader"] section {{
+        border: 2px dashed {border_color};
+        border-radius: 12px;
+        padding: 2rem;
+    }}
     
-    /* Upload Section Title */
+    /* CRITICAL: Hide the "200MB per file" text */
+    [data-testid="stFileUploader"] small {{
+        display: none !important;
+    }}
+    
+    [data-testid="stFileUploader"] span[data-testid="stMarkdownContainer"] small {{
+        display: none !important;
+    }}
+    
+    /* Hide Streamlit Branding */
+    #MainMenu {{visibility: hidden !important;}}
+    footer {{visibility: hidden !important;}}
+    header {{visibility: hidden !important;}}
+    
     .upload-title {{
         font-size: 1.4rem;
         font-weight: 600;
         color: {text_color};
         margin-bottom: 1.5rem;
+    }}
+    
+    /* Custom file size text */
+    .file-limit {{
+        font-size: 0.85rem;
+        color: {secondary_text};
+        margin-top: 0.5rem;
     }}
     </style>
     """
@@ -439,36 +456,38 @@ def main():
     
     col_resume, col_jd = st.columns(2)
     
+    MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+    
     with col_resume:
         st.markdown("**Candidate Resume**")
         resume_file = st.file_uploader(
-            "Upload Resume (PDF/DOCX)",
+            "Upload Resume",
             type=['pdf', 'docx'],
             key='resume',
-            help="Maximum file size: 5MB"
+            label_visibility="collapsed"
         )
+        st.markdown('<p class="file-limit">📎 PDF or DOCX • Maximum 5MB</p>', unsafe_allow_html=True)
     
     with col_jd:
         st.markdown("**Job Description**")
         jd_file = st.file_uploader(
-            "Upload Job Description (PDF/DOCX)",
+            "Upload Job Description",
             type=['pdf', 'docx'],
             key='jd',
-            help="Maximum file size: 5MB"
+            label_visibility="collapsed"
         )
+        st.markdown('<p class="file-limit">📎 PDF or DOCX • Maximum 5MB</p>', unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Analysis Section
     if resume_file and jd_file:
-        # File size validation (5MB limit)
-        MAX_SIZE = 5 * 1024 * 1024  # 5MB in bytes
-        
-        if resume_file.size > MAX_SIZE:
-            st.error(f"❌ Resume file size ({resume_file.size / (1024*1024):.2f}MB) exceeds 5MB limit")
+        # File size validation
+        if resume_file.size > MAX_FILE_SIZE:
+            st.error(f"❌ Resume file is {resume_file.size / (1024*1024):.1f}MB. Maximum allowed is 5MB.")
             return
-        if jd_file.size > MAX_SIZE:
-            st.error(f"❌ Job Description file size ({jd_file.size / (1024*1024):.2f}MB) exceeds 5MB limit")
+        if jd_file.size > MAX_FILE_SIZE:
+            st.error(f"❌ Job Description file is {jd_file.size / (1024*1024):.1f}MB. Maximum allowed is 5MB.")
             return
         
         with st.spinner("🔄 Analyzing documents..."):
@@ -476,7 +495,7 @@ def main():
             jd_text = extract_text(jd_file)
             
             if not resume_text or not jd_text:
-                st.error("❌ Failed to extract text from one or both documents. Please check file format.")
+                st.error("❌ Failed to extract text. Please check your file format.")
                 return
             
             match_score = calculate_match(resume_text, jd_text)
@@ -486,7 +505,6 @@ def main():
         
         # Results
         st.markdown('<div class="result-card">', unsafe_allow_html=True)
-        
         st.markdown("### 🎯 Match Results")
         st.markdown(f'<div class="match-score">{match_score}%</div>', unsafe_allow_html=True)
         st.markdown('<p style="text-align: center; font-size: 1.3rem; opacity: 0.8; margin-bottom: 1.5rem;">Resume-JD Compatibility Score</p>', unsafe_allow_html=True)
@@ -494,11 +512,11 @@ def main():
         st.progress(match_score / 100)
         
         if match_score >= 75:
-            st.success("✅ **Strong Match** - Candidate is highly qualified for this role")
+            st.success("✅ **Strong Match** — Candidate is highly qualified")
         elif match_score >= 50:
-            st.warning("⚠️ **Moderate Match** - Candidate meets some requirements")
+            st.warning("⚠️ **Moderate Match** — Partial requirements met")
         else:
-            st.error("❌ **Weak Match** - Significant skill gaps detected")
+            st.error("❌ **Weak Match** — Significant gaps detected")
         
         st.markdown('</div>', unsafe_allow_html=True)
         
@@ -512,7 +530,7 @@ def main():
                 skills_html = "".join([f'<span class="skill-pill">{skill}</span>' for skill in resume_skills])
                 st.markdown(skills_html, unsafe_allow_html=True)
             else:
-                st.info("No common skills detected in resume")
+                st.info("No common skills detected")
             st.markdown('</div>', unsafe_allow_html=True)
         
         with col_missing:
@@ -522,7 +540,7 @@ def main():
                 skills_html = "".join([f'<span class="skill-pill">{skill}</span>' for skill in missing_skills])
                 st.markdown(skills_html, unsafe_allow_html=True)
             else:
-                st.success("🎉 No skill gaps identified!")
+                st.success("🎉 No skill gaps!")
             st.markdown('</div>', unsafe_allow_html=True)
     
     # Documentation Section
@@ -537,8 +555,8 @@ def main():
             <div class="doc-title">🔬 How It Works</div>
             <div class="doc-desc">
                 Aequitas uses <strong>TF-IDF vectorization</strong> and <strong>cosine similarity</strong> 
-                to compare resumes against job descriptions. The system extracts text from PDF/DOCX files, 
-                converts them into numerical vectors, and calculates similarity scores ranging from 0-100%.
+                to compare resumes against job descriptions. Text is extracted from PDF/DOCX files, 
+                converted into numerical vectors, and similarity scores (0-100%) are calculated.
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -558,33 +576,34 @@ def main():
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # Theme Toggle (Footer Button)
+    # Theme Toggle
     theme_icon = "🌙" if st.session_state.theme == 'light' else "☀️"
     theme_text = "Dark Mode" if st.session_state.theme == 'light' else "Light Mode"
     
+    col1, col2 = st.columns([5, 1])
+    with col2:
+        if st.button("🔄", key="theme_btn", help="Toggle theme"):
+            toggle_theme()
+            st.rerun()
+    
     st.markdown(f"""
-    <div class="theme-toggle" onclick="document.querySelector('button[data-testid=baseButton-primary]').click()">
+    <div class="theme-toggle" onclick="document.querySelector('[data-testid=baseButton-secondary]').click()">
         {theme_icon} {theme_text}
     </div>
     """, unsafe_allow_html=True)
-    
-    # Hidden button for theme toggle
-    if st.button("Toggle Theme", key="theme_btn", type="primary", use_container_width=False):
-        toggle_theme()
-        st.rerun()
     
     # Footer
     st.markdown("""
     <div class="footer">
         <div class="footer-credits">
-            <strong>Lead Architect:</strong> Devansh Thakur | 
+            <strong>Lead Architect:</strong> Devansh Thakur &nbsp;|&nbsp; 
             <strong>Co-Developer:</strong> Arpit Upadhyay<br>
             <strong>Project Guide:</strong> [Your Guide Name Here]
         </div>
         
-        <div class="footer-links">
-            <a href="https://github.com/thisisdvnsh-thkr/Aequitas_Resume-Parser" target="_blank">📂 GitHub Repository</a>
-            <a href="https://linkedin.com/in/devansh-thakur" target="_blank">💼 LinkedIn</a>
+        <div style="margin: 1.5rem 0;">
+            <a href="https://github.com/thisisdvnsh-thkr/Aequitas_Resume-Parser" target="_blank" class="footer-link">📂 GitHub Repository</a>
+            <a href="https://linkedin.com/in/devansh-thakur" target="_blank" class="footer-link">💼 LinkedIn</a>
         </div>
         
         <div class="footer-meta">
